@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZOZKA FIT - باقات التدريب</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #ff003c;
+            --primary-dark: #cc0030;
+            --bg-dark: #0a0a0c;
+            --card-bg: #141518;
+            --text-main: #ffffff;
+            --silver: #cccccc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 10px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 0, 60, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            overflow: hidden;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px 15px;
+            border-bottom: 2px solid var(--primary);
+            background: linear-gradient(180deg, rgba(255, 0, 60, 0.15) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .logo-title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--text-main);
+            letter-spacing: 2px;
+        }
+
+        .logo-title span {
+            color: var(--primary);
+        }
+
+        .subtitle {
+            color: var(--silver);
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        .steps-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0 10px;
+        }
+
+        .step-pill {
+            padding: 8px 20px;
+            border-radius: 20px;
+            background: #222;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #888;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+
+        .step-pill.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .step-content {
+            display: none;
+            padding: 25px;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .package-card {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 22px 18px;
+            color: #111;
+            text-align: center;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 0, 60, 0.3);
+        }
+
+        .package-card.selected {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(255, 0, 60, 0.6);
+        }
+
+        .package-header {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .package-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #000;
+        }
+
+        .package-title span {
+            color: var(--primary);
+        }
+
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .feature-item {
+            background: #f2f3f5;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border-right: 4px solid #111;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-align: right;
+        }
+
+        .feature-item.highlight {
+            background: var(--primary);
+            color: #fff;
+            border-right-color: #88001d;
+        }
+
+        .feature-num {
+            background: #111;
+            color: #fff;
+            min-width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 900;
+            margin-left: 8px;
+        }
+
+        .feature-item.highlight .feature-num {
+            background: #fff;
+            color: var(--primary);
+        }
+
+        .sub-text {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--primary);
+            margin-top: 2px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(255, 0, 60, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: #252830;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--silver);
+            font-size: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #333;
+            background: #1a1c21;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 85px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .radio-option {
+            flex: 1;
+            background: #1a1c21;
+            border: 1px solid #333;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            color: #ccc;
+        }
+
+        .radio-option.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        .selected-package-summary {
+            background: rgba(255, 0, 60, 0.1);
+            border-right: 4px solid var(--primary);
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 1.05rem;
+            color: #fff;
+        }
+
+        /* Ticket Design for Export Image */
+        #ticket-wrapper {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+        }
+
+        .ticket-card {
+            width: 550px;
+            background: #0d0e12;
+            border: 3px solid #ff003c;
+            border-radius: 20px;
+            padding: 30px;
+            color: #fff;
+            font-family: 'Tajawal', sans-serif;
+            text-align: center;
+        }
+
+        .ticket-header {
+            border-bottom: 2px dashed #ff003c;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .ticket-title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .ticket-title span {
+            color: #ff003c;
+        }
+
+        .ticket-package-badge {
+            display: inline-block;
+            background: #ff003c;
+            color: #fff;
+            padding: 8px 30px;
+            border-radius: 25px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-top: 12px;
+        }
+
+        .ticket-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: rgba(255,255,255,0.04);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            text-align: right;
+        }
+
+        .ticket-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .ticket-label {
+            color: #ff003c;
+            font-weight: bold;
+        }
+
+        .ticket-value {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .ticket-footer {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #777;
+        }
+
+        @media (max-width: 768px) {
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+            .step-content {
+                padding: 15px;
+            }
+            .logo-title {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo-title">ZOZKA <span>FIT</span></div>
+            <div class="subtitle">اختر باقتك وابدأ رحلتك الان</div>
+            
+            <div class="steps-indicator">
+                <div class="step-pill active" id="pill-step1">1. اختر الباقة</div>
+                <div class="step-pill" id="pill-step2">2. البيانات الشخصية</div>
+            </div>
+        </header>
+
+        <!-- STEP 1 -->
+        <div class="step-content active" id="step1">
+            <div class="packages-grid">
+                
+                <div class="package-card" onclick="selectPackage('باكدج الشهر', this)">
+                    <div>
+                        <div class="package-header">
+                            <div class="package-title">باكدج <span>الشهر</span></div>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <div>نظام تدريبي مناسب لهدفك <span class="sub-text">(In Zozka Fit Site)</span></div>
+                                <span class="feature-num">1</span>
+                            </li>
+                            <li class="feature-item">
+                                <span>نظام غذائي مناسب لاحتياجاتك</span>
+                                <span class="feature-num">2</span>
+                            </li>
+                            <li class="feature-item">
+                                <span>متابعة أسبوعية</span>
+                                <span class="feature-num">3</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="package-card" onclick="selectPackage('باكدج الشهرين', this)">
+                    <div>
+                        <div class="package-header">
+                            <div class="package-title">باكدج <span>الشهرين</span></div>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <div>نظام تدريبي مناسب لهدفك <span class="sub-text">(In Zozka Fit Site)</span></div>
+                                <span class="feature-num">1</span>
+                            </li>
+                            <li class="feature-item">
+                                <span>نظام غذائي مناسب لاحتياجاتك</span>
+                                <span class="feature-num">2</span>
+                            </li>
+                            <li class="feature-item">
+                                <span>متابعة دورية (24 ساعة)</span>
+                                <span class="feature-num">3</span>
+                            </li>
+                            <li class="feature-item highlight">
+                                <span>OFFER +</span>
+                                <span class="feature-num">4</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="package-card" onclick="selectPackage('باكدج 3 شهور', this)">
+                    <div>
+                        <div class="package-header">
+                            <div class="package-title">باكدج <span>3 شهور</span></div>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <div>نظام تدريبي مناسب لهدفك <span class="sub-text">(In Zozka Fit Site)</span></div>
+                                <span class="feature-num">1</span>
+                            </li>
+                            <li class="feature-item">
+                                <span>نظام غذائي مناسب لاحتياجاتك</span>
+                                <span class="feature-num">2</span>
+                            </li>
+                            <li class="feature-item">
+                                <span>متابعة دورية (24 ساعة)</span>
+                                <span class="feature-num">3</span>
+                            </li>
+                            <li class="feature-item">
+                                <div>ضمان وصول لأفضل نتيجة <span class="sub-text" style="color: #666;">(خلال المدة)</span></div>
+                                <span class="feature-num">4</span>
+                            </li>
+                            <li class="feature-item highlight">
+                                <span>OFFER ++</span>
+                                <span class="feature-num">5</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="btn btn-primary" onclick="goToStep2()">استكمال البيانات &larr;</button>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step-content" id="step2">
+            <div class="selected-package-summary">
+                الباقة المختارة: <span id="selectedPackageName" style="color: var(--primary);">لم يتم الاختيار</span>
+            </div>
+
+            <form id="fitForm" onsubmit="generateAndSend(event)">
+                <div class="form-group">
+                    <label>1. الاسم بالكامل</label>
+                    <input type="text" id="name" class="form-control" placeholder="أدخل اسمك" required>
+                </div>
+
+                <div class="form-group">
+                    <label>2. السن</label>
+                    <input type="number" id="age" class="form-control" placeholder="أدخل عمرك" min="10" max="90" required>
+                </div>
+
+                <div class="form-group">
+                    <label>3. الجنس</label>
+                    <div class="radio-group">
+                        <div class="radio-option selected" id="gender-male" onclick="selectGender('ذكر')">ذكر</div>
+                        <div class="radio-option" id="gender-female" onclick="selectGender('أنثى')">أنثى</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>4. الهدف من التدريب</label>
+                    <textarea id="goal" class="form-control" placeholder="اكتب هدفك..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>5. الحالة الصحية (هل توجد إصابات أو أمراض؟)</label>
+                    <div class="radio-group" style="margin-bottom: 10px;">
+                        <div class="radio-option selected" id="health-no" onclick="toggleHealthDetails(false)">لا يوجد</div>
+                        <div class="radio-option" id="health-yes" onclick="toggleHealthDetails(true)">يوجد</div>
+                    </div>
+                    <textarea id="health_details" class="form-control" style="display: none;" placeholder="اكتب التفاصيل هنا..."></textarea>
+                </div>
+
+                <button type="button" class="btn btn-secondary" onclick="goToStep1()">&rarr; العودة لتغيير الباقة</button>
+                <button type="submit" class="btn btn-primary" id="submitBtn">إرسال كارت الاشتراك &rarr;</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Ticket Template for Export Image -->
+    <div id="ticket-wrapper">
+        <div class="ticket-card" id="ticket-card">
+            <div class="ticket-header">
+                <div class="ticket-title">ZOZKA <span>FIT</span></div>
+                <div class="ticket-package-badge" id="t-package">باكدج الشهر</div>
+            </div>
+            <div class="ticket-info">
+                <div class="ticket-row"><span class="ticket-value" id="t-name">-</span><span class="ticket-label">:الاسم</span></div>
+                <div class="ticket-row"><span class="ticket-value" id="t-age">-</span><span class="ticket-label">:السن</span></div>
+                <div class="ticket-row"><span class="ticket-value" id="t-gender">-</span><span class="ticket-label">:الجنس</span></div>
+                <div class="ticket-row"><span class="ticket-value" id="t-goal">-</span><span class="ticket-label">:الهدف</span></div>
+                <div class="ticket-row"><span class="ticket-value" id="t-health">-</span><span class="ticket-label">:الحالة الصحية</span></div>
+            </div>
+            <div class="ticket-footer">
+                تاريخ الطلب: <span id="t-date"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedPackage = '';
+        let selectedGenderValue = 'ذكر';
+        let hasHealthCondition = false;
+
+        function selectPackage(packageName, element) {
+            selectedPackage = packageName;
+            document.querySelectorAll('.package-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        function goToStep2() {
+            if (!selectedPackage) {
+                alert('من فضلك اختر الباقة المناسبة أولاً');
+                return;
+            }
+            document.getElementById('selectedPackageName').innerText = selectedPackage;
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
+            document.getElementById('pill-step1').classList.remove('active');
+            document.getElementById('pill-step2').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goToStep1() {
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('pill-step2').classList.remove('active');
+            document.getElementById('pill-step1').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function selectGender(gender) {
+            selectedGenderValue = gender;
+            document.getElementById('gender-male').classList.toggle('selected', gender === 'ذكر');
+            document.getElementById('gender-female').classList.toggle('selected', gender === 'أنثى');
+        }
+
+        function toggleHealthDetails(show) {
+            hasHealthCondition = show;
+            document.getElementById('health-no').classList.toggle('selected', !show);
+            document.getElementById('health-yes').classList.toggle('selected', show);
+            
+            const healthDetailsInput = document.getElementById('health_details');
+            if (show) {
+                healthDetailsInput.style.display = 'block';
+                healthDetailsInput.required = true;
+            } else {
+                healthDetailsInput.style.display = 'none';
+                healthDetailsInput.required = false;
+                healthDetailsInput.value = '';
+            }
+        }
+
+        async function generateAndSend(event) {
+            event.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerText = "جاري إعداد صورة الكارت...";
+            submitBtn.disabled = true;
+
+            const name = document.getElementById('name').value.trim();
+            const age = document.getElementById('age').value.trim();
+            const goal = document.getElementById('goal').value.trim();
+            const healthDetails = document.getElementById('health_details').value.trim();
+            const healthStatusText = hasHealthCondition ? `يوجد (${healthDetails})` : "لا يوجد";
+
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`;
+
+            document.getElementById('t-package').innerText = selectedPackage;
+            document.getElementById('t-name').innerText = name;
+            document.getElementById('t-age').innerText = age + " سنة";
+            document.getElementById('t-gender').innerText = selectedGenderValue;
+            document.getElementById('t-goal').innerText = goal;
+            document.getElementById('t-health').innerText = healthStatusText;
+            document.getElementById('t-date').innerText = dateStr;
+
+            const ticketElement = document.getElementById('ticket-card');
+            
+            try {
+                const canvas = await html2canvas(ticketElement, { scale: 2 });
+                
+                canvas.toBlob(async (blob) => {
+                    const file = new File([blob], `ZOZKA_FIT_${name}.png`, { type: 'image/png' });
+
+                    // المحاولة الأولى: فتح قائمة مشاركة الملفات المباشرة للموبايل (Web Share API)
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        try {
+                            await navigator.share({
+                                files: [file],
+                                title: 'طلب اشتراك ZOZKA FIT',
+                                text: ''
+                            });
+                            submitBtn.innerText = "تم المشاركة بنجاح";
+                            submitBtn.disabled = false;
+                            return;
+                        } catch (shareErr) {
+                            console.log('User cancelled or share failed', shareErr);
+                        }
+                    }
+
+                    // المحاولة الثانية: تنزيل الصورة + فتح الواتساب
+                    const link = document.createElement('a');
+                    link.download = `ZOZKA_FIT_${name}.png`;
+                    link.href = URL.createObjectURL(blob);
+                    link.click();
+
+                    const phone = "201119052812";
+                    window.open(`https://wa.me/${phone}`, '_blank');
+
+                    submitBtn.innerText = "إرسال كارت الاشتراك ->";
+                    submitBtn.disabled = false;
+                }, 'image/png');
+
+            } catch (err) {
+                alert("حدث خطأ أثناء إنشاء الصورة.");
+                submitBtn.innerText = "إرسال كارت الاشتراك ->";
+                submitBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
